@@ -9,6 +9,7 @@ services:
     volumes:
       - media_volume:/app/src/media_volume
       - static_volume:/app/src/media_volume
+      - ./src/apps/todo/migrations:/app/src/apps/todo/migrations
     logging:
       driver: "json-file"
       options:

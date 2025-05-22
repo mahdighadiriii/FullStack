@@ -14,6 +14,12 @@ python-decouple = "3.8"
 psycopg = "^3.2.9"
 psycopg-binary = "^3.2.9"
 
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+flake8 = "^7.2.0"
+mypy = "^1.15.0"
+isort = "^6.0.1"
+bandit = "^1.8.3"
 
 [build-system]
 requires = ["poetry-core"]
