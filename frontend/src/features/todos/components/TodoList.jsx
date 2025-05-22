@@ -1,29 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import useTodoStore from "./store/todoStore";
 
 export function TodoList() {
-  const todos = useTodoStore((state) => state.todos);
-  const toggleTodo = useTodoStore((state) => state.toggleTodo);
-  const deleteTodo = useTodoStore((state) => state.deleteTodo);
+  const { todos, fetchTodos, toggleTodo, deleteTodo, loading, error } = useTodoStore();
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
   return (
     <ul className="space-y-4 mt-6">
+      {loading && <p className="text-white">Loading todos...</p>}
+      {error && <p className="text-red-400">{error}</p>}
       {todos.map((todo, index) => (
         <motion.li
           key={todo.id}
           className="flex items-start justify-between bg-white/10 p-4 rounded-lg backdrop-blur-md shadow"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 }}
+          transition={{ delay: index * 0.05 }}
         >
           <div className="flex-1">
             <h3
               className={`font-semibold text-lg text-white ${
-                todo.completed ? "line-through text-gray-400" : ""
+                todo.status ? "line-through text-gray-400" : ""
               }`}
             >
-              {todo.title}
+              {todo.task}
             </h3>
             {todo.description && (
               <p className="text-sm text-gray-300">{todo.description}</p>
@@ -36,7 +40,7 @@ export function TodoList() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {todo.completed ? "Undo" : "Done"}
+              {todo.status ? "Undo" : "Done"}
             </motion.button>
             <motion.button
               onClick={() => deleteTodo(todo.id)}

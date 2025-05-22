@@ -1,34 +1,62 @@
 import { create } from "zustand";
+import api from "../../../../api/api";
 
-const useTodoStore = create((set) => ({
-  todos: [
-    { id: 1, title: "Learn React", description: "Study hooks and state", completed: false },
-    { id: 2, title: "Build Todo App", description: "Create a Web3-style UI", completed: true },
-  ],
+const useTodoStore = create((set, get) => ({
+  todos: [],
   error: null,
+  loading: false,
 
-  addTodo: ({ title, desc }) => {
+  fetchTodos: async () => {
+    try {
+      set({ loading: true });
+      const res = await api.get("todo-items/");
+      set({ todos: res.data.results, error: null });
+    } catch (err) {
+      set({ error: "Failed to fetch todos" });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  addTodo: async ({ title, desc }) => {
     if (!title.trim()) {
       set({ error: "Title is required" });
       return;
     }
-    set((state) => ({
-      todos: [...state.todos, { id: Date.now(), title, description: desc, completed: false }],
-      error: null,
-    }));
+
+    try {
+      await api.post("todo-items/", {
+        task: title,
+        description: desc,
+      });
+      await get().fetchTodos();
+    } catch (err) {
+      set({ error: "Failed to add todo" });
+    }
   },
 
-  toggleTodo: (id) =>
-    set((state) => ({
-      todos: state.todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      ),
-    })),
+  deleteTodo: async (id) => {
+    try {
+      await api.delete(`todo-items/${id}/`);
+      await get().fetchTodos();
+    } catch (err) {
+      set({ error: "Failed to delete todo" });
+    }
+  },
 
-  deleteTodo: (id) =>
-    set((state) => ({
-      todos: state.todos.filter((todo) => todo.id !== id),
-    })),
+  toggleTodo: async (id) => {
+    const todo = get().todos.find((t) => t.id === id);
+    if (!todo) return;
+
+    try {
+      await api.patch(`todo-items/${id}/`, {
+        status: !todo.status,
+      });
+      await get().fetchTodos();
+    } catch (err) {
+      set({ error: "Failed to update status" });
+    }
+  },
 }));
 
 export default useTodoStore;
