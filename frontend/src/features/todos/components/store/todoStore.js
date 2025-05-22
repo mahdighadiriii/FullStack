@@ -23,13 +23,13 @@ const useTodoStore = create((set, get) => ({
       set({ error: "Title is required" });
       return;
     }
-
     try {
       await api.post("todo-items/", {
         task: title,
         description: desc,
       });
       await get().fetchTodos();
+      set({ error: null });
     } catch (err) {
       set({ error: "Failed to add todo" });
     }
@@ -39,6 +39,7 @@ const useTodoStore = create((set, get) => ({
     try {
       await api.delete(`todo-items/${id}/`);
       await get().fetchTodos();
+      set({ error: null });
     } catch (err) {
       set({ error: "Failed to delete todo" });
     }
@@ -53,6 +54,7 @@ const useTodoStore = create((set, get) => ({
         status: !todo.status,
       });
       await get().fetchTodos();
+      set({ error: null });
     } catch (err) {
       set({ error: "Failed to update status" });
     }
