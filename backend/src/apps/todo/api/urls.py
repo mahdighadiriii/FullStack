@@ -3,7 +3,7 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register("todo-items", TodoViewSet, basename="todo-item")
+router.register(r"todo-items", TodoViewSet, basename="todo-items")
 
 urlpatterns = [
     path("api/", include(router.urls)),
