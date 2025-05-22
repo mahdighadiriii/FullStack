@@ -25,6 +25,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Main URLs
 main_urlpatterns = [
     path("admin/", admin.site.urls),
+    path("todo/", include("apps.todo.urls", namespace="todo")),
 ]
 
 # Add main URL pattern with the base path
