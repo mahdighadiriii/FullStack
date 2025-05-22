@@ -13,6 +13,11 @@ uvicorn = "^0.34.2"
 python-decouple = "3.8"
 psycopg = "^3.2.9"
 psycopg-binary = "^3.2.9"
+djangorestframework = "^3.16.0"
+markdown = "^3.8"
+django-filter = "^25.1"
+drf-spectacular = "^0.28.0"
+django-cors-headers = "^4.7.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
