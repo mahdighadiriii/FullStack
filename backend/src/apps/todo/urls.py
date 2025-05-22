@@ -1,3 +1,7 @@
+from django.urls import include, path
+
 app_name = "todo"
 
-urlpatterns = []
+urlpatterns = [
+    path("", include("apps.todo.api.urls")),
+]
