@@ -1,0 +1,53 @@
+# ─── Global ─────────────────────
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.env.*
+
+# ─── VS Code ───────────────────
+.vscode/
+
+# ─── Mac/Linux ─────────────────
+.DS_Store
+Thumbs.db
+
+# ─── Poetry / Python ───────────
+poetry.lock
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.cache/
+.eggs/
+*.egg-info/
+dist/
+build/
+
+# ─── Node.js / Frontend ────────
+node_modules/
+dist/
+*.log
+*.tsbuildinfo
+
+# ─── Docker ────────────────────
+*.pid
+*.pid.lock
+
+# ─── React / Vite ──────────────
+frontend/.vite/
+frontend/.cache/
+frontend/.next/
+frontend/build/
+
+# ─── Database / Secrets ───────
+postgres/secrets/
+*.sqlite3
+
+# ─── JetBrains IDEs ────────────
+.idea/
