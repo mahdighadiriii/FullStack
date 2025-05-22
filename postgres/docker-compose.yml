@@ -1,29 +1,23 @@
 services:
-  g-settings-cdb:
+  core-data:
     image: postgres:16.3-alpine3.18
     container_name: core-cdb
-    hostname: g-settings-cdb
+    hostname: core-data
     env_file:
       - ./secrets/.env
     environment:
       - POSTGRES_INITDB_ARGS=--data-checksums
     volumes:
-      - settings_postgres_data:/var/lib/postgresql/data
+      - core_data:/var/lib/postgresql/data
     logging:
       driver: "json-file"
       options:
         max-size: "50m"
         max-file: "3"
     ports:
-      - "5438:5432"
+      - "5432:5432"
     networks:
-      galaxy:
-        ipv4_address: 192.168.200.44
-    # healthcheck:
-    #   test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 5
+      - galaxy
     restart: unless-stopped
 
 networks:
@@ -31,5 +25,5 @@ networks:
     external: true
 
 volumes:
-  settings_postgres_data:
-    name: settings-data
+  core_data:
+    name: core_data

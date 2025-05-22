@@ -2,7 +2,7 @@ services:
   core:
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     container_name: core
     hostname: core
     image: core:0.0.1
@@ -15,14 +15,13 @@ services:
         max-size: "50m"
         max-file: "3"
     ports:
-      - "8004:8000"
+      - "8000:8000"
     networks:
-      galaxy:
-        ipv4_address: 192.168.200.43
+      - galaxy
     restart: unless-stopped
     env_file:
       - ./.env
-    command: bash initialize/settings_initialize.sh
+    command: bash initialize/core_initialize.sh
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://localhost:8000/settings/api/schema/swagger-ui/"]
     #   interval: 30s
@@ -35,6 +34,6 @@ networks:
 
 volumes:
   media_volume:
-    name: settings-media-volume
+    name: core-media-volume
   static_volume:
-    name: settings-static-volume
+    name: core-static-volume
