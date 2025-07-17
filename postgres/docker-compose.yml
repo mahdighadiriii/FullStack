@@ -17,11 +17,11 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - galaxy
+      - core
     restart: unless-stopped
 
 networks:
-  galaxy:
+  core:
     external: true
 
 volumes:
